@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  category    String
+  title       String
+  description String
+  tech        String
+  imageUrl    String?
+  images      String[] @default([])
+  githubUrl   String?
+  demoUrl     String?
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  number      String
+  title       String
+  description String
+  icon        String?
+  active      Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Skill {
+  id        Int      @id @default(autoincrement())
+  name      String
+  level     Int      @default(80)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model QuoteRequest {
+  id             Int      @id @default(autoincrement())
+  fullName       String
+  company        String?
+  email          String
+  phone          String?
+  projectType    String
+  budget         String?
+  deadline       String?
+  description    String
+  status         String   @default("Nouveau")
+  read           Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model SiteSettings {
+  id           Int      @id @default(autoincrement())
+  name         String   @default("Françine Tech")
+  person       String   @default("Françine Houmenou")
+  title        String   @default("Développeuse Web & Mobile")
+  tagline      String?
+  bio          String?
+  email        String?
+  whatsapp     String?
+  phone        String?
+  location     String?
+  photoUrl     String?
+  cvUrl        String?
+  github       String?
+  linkedin     String?
+  twitter      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id        Int      @id @default(autoincrement())
+  type      String
+  path      String?
+  meta      String?
+  createdAt DateTime @default(now())
+
+  @@index([type])
+  @@index([createdAt])
+}
